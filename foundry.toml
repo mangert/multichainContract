@@ -1,0 +1,20 @@
+# foundry.toml
+[profile.default]
+# указываем ту же папку, где лежат ваши solidity-файлы
+src = "contracts"        #
+out = "out"              # где forge кладёт артефакты
+libs = ["lib"]           # forge зависимости (если будете ставить forge install)
+# Указать точную версию солка (совпадает с build-info Hardhat)
+solc = "0.8.30"
+# optimizer
+optimizer = true
+optimizer_runs = 200
+
+# (опционально) если нужно — можно отключить встраивание метадаты/hash:
+# bytecode_hash = "none"
+# cbor_metadata = false
+
+[rpc_endpoints]
+bsc-testnet = "${BSC_TESTNET_RPC}"
+opbnb-testnet = "${OPBNB_TESTNET_RPC}"
+polygonAmoy = "${AMOY_RPC}"

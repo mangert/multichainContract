@@ -1,13 +1,87 @@
-# Sample Hardhat Project
+Auction Contract Multi-Chain Deployment
+1. Контракт и деплой
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+Контракт: Auction.sol — простой контракт аукциона, полностью в одном файле.
+Изначально контракт был деплоен в Sepolia (другое домашнее задание). Для деплоя в другие сети правки кода не понадобились.
 
-Try running some of the following tasks:
+Тесты: полный комплект Hardhat-тестов для контракта.
 
-```shell
-npx hardhat help
+Hardhat версия: 2.26.3.
+
+Скрипты деплоя и верификации:
+
+scripts/deploy-verify.ts — Hardhat-скрипт для деплоя и верификации.
+
+Верификация полностью работает только в Sepolia, на других сетях пока ограничена из-за перехода на Etherscan V2 API и особенностей сетевых API.
+
+deploy.sh — Bash-скрипт, использующий Foundry (forge) для деплоя в разные сети.
+
+Контракты деплоились успешно в сети:
+
+BSC Testnet: 0xC8eCCBE3da5cd1C3A2b3a1D540e685646902527b
+
+Polygon Amoy: 0xFAAA1b54B96Ca6F00cE44Fc54828F57d1362AbA4
+
+opBNB Testnet: 0xFAAA1b54B96Ca6F00cE44Fc54828F57d1362AbA4
+
+Верификация:
+
+BSC Testnet: удачно верифицирован скриптом через Foundry.
+
+Polygon Amoy: удачно верифицирован скриптом через Foundry.
+
+opBNB Testnet: верификация через скрипт пока не проходит из-за ограничений opBNB API; контракт проверен вручную через интерфейс BscScan/opBNBScan.
+
+Причина ограничений:
+
+opBNB API пока не полностью совместим с V2 Etherscan API и не всегда корректно принимает запросы на верификацию через скрипт.
+
+Остальные сети (BSC, Polygon) поддерживают автоматическую верификацию через Foundry.
+
+2. Тесты и деплой
+
+Тесты:
+
+Используется Hardhat версии 2.26.3.
+
+Команда:
 npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.ts
-```
+Тесты работают независимо от сети на локальной сети Hardhat.
+
+Деплой и верификация через Bash-скрипт (deploy.sh):
+
+Скрипт позволяет деплоить контракт в сети, указанные в foundry.toml и .env.
+
+Пример запуска:
+./deploy.sh polygonAmoy
+./deploy.sh bsc-testnet
+./deploy.sh opbnb-testnet
+Скрипт выполняет:
+
+Загрузку переменных окружения из .env.
+
+Определение RPC и Chain ID для выбранной сети.
+
+Деплой контракта через forge create с приватным ключом.
+
+(Опционально) Попытку автоматической верификации через Etherscan/Polygonscan/BscScan.
+
+Особенности верификации:
+
+BSC Testnet и Polygon Amoy: контракт верифицируется автоматически скриптом.
+
+opBNB Testnet: автоматическая верификация не проходит; требуется ручная верификация через интерфейс.
+
+Причина: особенности поддержки V2 API и политики сети; скрипт не учитывает все нюансы opBNB.
+
+Примечания:
+
+Скрипт и конфигурация рассчитаны на единый контракт Auction.sol.
+
+Для других контрактов или сетей могут потребоваться дополнительные настройки компилятора и путей.
+
+Скрипты и конфигурация:
+
+deploy.sh — Bash-скрипт для деплоя и верификации через Foundry.
+
+scripts/deploy-verify.ts — скрипт для деплоя и верификации через Hardhat (верификация корректна только для Sepolia).
