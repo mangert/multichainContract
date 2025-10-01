@@ -100,6 +100,9 @@ async function main() {
   console.log("Source txids:", srcTxids);
 
   // 9) Ждём VAA (attestation)
+  // Важно: xfer.fetchAttestation() ждёт подписи от всех guardian'ов
+  // на VAA. Этот шаг может занимать значительное время (до 15 минут на тестнете),
+  // поэтому он обёрнут в цикл с повторными попытками для устойчивости.
   console.log("⏳ Ожидаем VAA (attestation от guardian'ов) — может занять время...");
 
   let vaaFetched = false;
