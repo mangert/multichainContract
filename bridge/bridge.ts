@@ -101,12 +101,12 @@ async function main() {
 
   // 9) Ждём VAA (attestation)
   // Важно: xfer.fetchAttestation() ждёт подписи от всех guardian'ов
-  // на VAA. Этот шаг может занимать значительное время (до 15 минут на тестнете),
+  // на VAA. Этот шаг может занимать значительное время,
   // поэтому он обёрнут в цикл с повторными попытками для устойчивости.
   console.log("⏳ Ожидаем VAA (attestation от guardian'ов) — может занять время...");
 
   let vaaFetched = false;
-  const maxAttempts = 1800; // например до часа (1800 * 2 сек)
+  const maxAttempts = 1800; // на практике забирает около 500-600 попыток
   const retryDelay = 2000; // 2 сек
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
